@@ -1,6 +1,9 @@
 import React from 'react';
 
 const MovieDetail = ({ movie,error }) => {
+    const saveMovie =(movie) => {
+        console.log(movie)
+    }
     return (
         <div>
             <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -21,7 +24,7 @@ const MovieDetail = ({ movie,error }) => {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-success btn-sm">Save</button>
+                            <button type="button" onClick={() => saveMovie(movie)} className="btn btn-success btn-sm" data-bs-dismiss="modal">Add you list</button>
                         </div>
                     </div>
                 </div>

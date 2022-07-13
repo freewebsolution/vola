@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AuthUser from '../services/AuthUser';
+import axios from 'axios';
+import MyMovie from './MyMovie';
 const Dashboard = () => {
+    const [movies, setMovies] = useState([])
+
+    useEffect(() => {
+        console.log('effect');
+        axios
+            .get('http://localhost:3001/api/movies')
+            .then(res => {
+                console.log('promise fulfilled')
+                setMovies(res.data)
+            })
+    }, [])
     const { user } = AuthUser();
     return (
-        <div>
-            <h4>Name</h4>
-            <p>{user.name}</p>
-            <h4>Email</h4>
-            <p>{user.email}</p>
-            <Link className="nav-link" to={`/edit/${user.id}`}>Edit to  {user.name}</Link>
+        <div className='content'>
+            <h1 className='title'><i className="fa-solid fa-film" style={{ color: "green" }}></i> Dashboard</h1>
+            <h2 className='quote'>
+                La Dashboard di {user.name}<Link to={`/edit/${user.id}`}><span className='ms-2'>Edit</span></Link>
+            </h2>
+            <p>Email: {user.email}</p>
+            <h4>My favorites Movie:</h4>
+            {movies.map(movie => <MyMovie key={movie.id} movie={movie} />)}
         </div>
 
     );
