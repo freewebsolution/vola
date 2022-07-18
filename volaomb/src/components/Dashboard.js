@@ -1,20 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AuthUser from '../services/AuthUser';
-import axios from 'axios';
+import movieService from '../services/MovieService';
 import MyMovie from './MyMovie';
 const Dashboard = () => {
     const [movies, setMovies] = useState([])
-
     useEffect(() => {
-        console.log('effect');
-        axios
-            .get('http://localhost:3001/api/movies')
+        movieService
+            .getAll()
             .then(res => {
                 console.log('promise fulfilled')
                 setMovies(res.data)
             })
     }, [])
+
+    const deleteMovieOf = (id, tema) => {
+        const r = window.confirm(`Sicuro di voler eliminare il film ${tema} ? `)
+        if (r === false) {
+            return
+        } else {
+            movies.filter(n => n.id === id)
+            movieService
+                .deleteMovie(id)
+                .then(() => {
+                    setMovies(movies.filter(movie => movie.id !== id))
+                })
+        }
+    }
+
     const { user } = AuthUser();
     return (
         <div className='content'>
@@ -24,7 +37,7 @@ const Dashboard = () => {
             </h2>
             <p>Email: {user.email}</p>
             <h4>My favorites Movie:</h4>
-            {movies.map(movie => <MyMovie key={movie.id} movie={movie} />)}
+            {movies.length !== 0 ? movies.map(movie => <MyMovie key={movie.id} movie={movie} deleteMovie={() => deleteMovieOf(movie.id, movie.Title)} />) : <h4><i className="fas fa-exclamation-triangle" style={{ color: 'red' }}></i> Non hai titoli nei preferiti!</h4>}
         </div>
 
     );

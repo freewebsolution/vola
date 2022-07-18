@@ -1,7 +1,9 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 const app = express();
 app.use(express.json())
+app.use(cors())
 
 const Movie = require('./models/movie');;
 
@@ -43,7 +45,7 @@ app.get('/api/movies', (request, response) => {
         response.json(movies)
     })
 })
-app.delete('/api/movie/:id', (request, response, next) => {
+app.delete('/api/movies/:id', (request, response, next) => {
     Movie.findByIdAndRemove(request.params.id)
         .then(result => {
             response.status(204).end()

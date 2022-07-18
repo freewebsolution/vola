@@ -1,8 +1,8 @@
 import React from 'react';
 
-const MyMovie = ({ movie }) => {
+const MyMovie = ({ movie, deleteMovie }) => {
     return (
-        <div className='col-lg-3 col-sm-6 float-start'>
+        <div className='float-start col-md-4 col-lg-3'>
             <div className="card ms-1" style={{ width: '18rem' }}>
                 <img src={movie.Poster} className="card-img-top" alt={movie.Title} />
                 <div className="card-body">
@@ -13,7 +13,7 @@ const MyMovie = ({ movie }) => {
                     </h6>
                 </div>
                 <div className="card-footer text-center">
-                    <button className="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">DELETE</button>
+                    <button onClick={deleteMovie} className="btn btn-danger btn-sm">DELETE</button>
                 </div>
             </div>
         </div>

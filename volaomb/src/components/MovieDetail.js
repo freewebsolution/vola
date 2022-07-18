@@ -1,9 +1,22 @@
-import React from 'react';
-
-const MovieDetail = ({ movie,error }) => {
-    const saveMovie =(movie) => {
-        console.log(movie)
+import React, { useState } from 'react';
+import movieService from '../services/MovieService';
+const MovieDetail = ({ movie, error }) => {
+    const [movies, setMovies] = useState([]);
+    const saveMovie = () => {
+        const movieObject = {
+            Title: movie.Title,
+            Actor: movie.Actors,
+            Director: movie.Director,
+            Poster: movie.Poster
+        }
+        movieService
+            .create(movieObject)
+            .then(res => {
+                console.log(res)
+                setMovies(movies.concat(res.data))
+            })
     }
+
     return (
         <div>
             <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -15,12 +28,12 @@ const MovieDetail = ({ movie,error }) => {
                         </div>
                         <div className="modal-body">
                             <p><strong>Director:</strong> {movie?.Director}</p>
-                            <p><strong>Actors:</strong> {movie?.Actors}</p>  
+                            <p><strong>Actors:</strong> {movie?.Actors}</p>
                             <p><strong>Year:</strong> {movie?.Year}</p>
                             <p><strong>Genre:</strong> {movie?.Genre}</p>
                             <p><strong>Country:</strong> {movie?.Country}</p>
-                            <p><strong>Description:</strong> <br/> {movie?.Plot}</p>
-                            <p>{error}</p> 
+                            <p><strong>Description:</strong> <br /> {movie?.Plot}</p>
+                            <p>{error}</p>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>

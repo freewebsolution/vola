@@ -4,7 +4,7 @@ const SearchBar = ({ onSearchChange }) => {
     const [search, setSearch] = useState('');
     const manageSearch = (evt) => {
         evt.preventDefault();
-        const s = evt.target.value.trim();
+        const s = evt.target.value;
         setSearch(s);
     }
     const searchMovie = (evt) => {
